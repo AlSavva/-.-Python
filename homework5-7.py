@@ -21,12 +21,18 @@ try:
         first_dict = {}
         second_dict = {}
         sum_res = 0
+        bad_res = 0
         for line in infile:
+            if int(line.split()[2]) - int(line.split()[3]) >= 0:
+                sum_res += int(line.split()[2]) - int(line.split()[3])
+            else:
+                bad_res += 1
             sum_res += int(line.split()[2]) - int(line.split()[3])
             first_dict[line.split()[0]] = int(line.split()[2]) - int(
                 line.split()[3])
         infile.seek(0)
-        second_dict['average_profit'] = sum_res / len(infile.readlines())
+        second_dict['average_profit'] = sum_res / (
+                    len(infile.readlines()) - bad_res)
     with open('text_77.json', 'w', encoding='utf-8') as outfile:
         json.dump([first_dict, second_dict], outfile, ensure_ascii=False)
 except IOError:
